@@ -1,7 +1,10 @@
 <html>
 <body>
- {% if errors %}
- <p class="error">{{ errors }}</p>
+
+  <h1>Registration</h1>
+
+   {% if errors %}
+     <p class="error">{{ errors }}</p>
   {% endif %}
 
   <form action="" method="post">
@@ -12,6 +15,6 @@
 
     <input type="submit" value="login" />
   </form>
-  or <a href="/register">register</a>.
+  or <a href="/login">login</a>.
 </body>
 </html>

@@ -1,9 +1,29 @@
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render
+from django.contrib.auth.models import User
 
 from django.http import HttpResponseRedirect
 
 from django.contrib import auth
+
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        if User.objects.filter(username=username):
+            return render(request, 'register.html',
+                    {'errors': 'This username is already taken'})
+
+        user = User.objects.create_user(username=username, password=password)
+
+        if user:
+            user = auth.authenticate(username=username, password=password)
+            auth.login(request,user)
+            return HttpResponseRedirect("/forum")
+
+        return render(request, str(user))
+    else:
+        return render(request, 'register.html')
 
 def login(request):
     if request.method == 'POST':
@@ -16,12 +36,13 @@ def login(request):
             # Redirect to a success page.
             return HttpResponseRedirect("/forum")
         else:
-            return render_to_response('login.html', {'errors': 'Wrong login or username'})
+            return render(request, 'login.html', {'errors': 'Wrong login or username'})
     else:
-        return render_to_response('login.html')
+        return render(request, 'login.html')
 
 def logout(request):
-    return render_to_response('logout.html')
+    auth.logout(request)
+    return HttpResponseRedirect("/forum")
 
 def forum(request):
-    return render_to_response('forum.html')
+    return render(request, 'forum.html')
