@@ -6,6 +6,8 @@ from django.http import HttpResponseRedirect
 
 from django.contrib import auth
 
+from main.models import Message
+
 def register(request):
     if request.method == 'POST':
         username = request.POST.get('username', '')
@@ -45,4 +47,5 @@ def logout(request):
     return HttpResponseRedirect("/forum")
 
 def forum(request):
-    return render(request, 'forum.html')
+    messages = Message.objects.all()
+    return render(request, 'forum.html', {'messages': messages})

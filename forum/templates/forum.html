@@ -6,6 +6,14 @@
             <p>You are anonymous.</p>
         {% endif %}
 
+        {% for message in messages %}
+        <ul>
+            <li>
+                {{ message.text|upper }}
+            </li>
+        </ul>
+        {% endfor %}
+
         <p>
             This is a forum template.
         </p>
