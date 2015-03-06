@@ -8,6 +8,8 @@
 2. Создать virtualenv в текущем каталоге (```virtualenv .```)
 3. Активировать этот virtualenv (```. /bin/activate```) — в shell prompt появится имя текущего каталога в скобках, например: ```(forum)pavel@pavelt:~/dev/forum$```
 4. Внутри него сказать ```pip install -r requirements.txt``` (поставится Django)
+5. Сказать ```forum/manage.py migrate``` — создастся и промигрируется локальная БД (```db.sqlite3```)
+6. Сказать ```forum/manage.py syncdb``` — и ввести имя, email (любой) и пароль для пользователя-администратора (для простоты задайте ```admin```, ```admin```)
 5. Сказать ```forum/manage.py runserver 8001``` — запустится devserver на порту 8001
 6. В браузере открыть ```http://0.0.0.0:8001/``` или ```http://localhost:8001/```
 7. ...
