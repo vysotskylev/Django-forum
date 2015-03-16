@@ -27,7 +27,8 @@
 {% if user.is_authenticated %}
 <form method="POST">
     Add your message: <br>
-    <input type="text" name="text">
+    <input id="message" type="text" name="text">
+    <button type="submit">Add</button>
 </form>
 {% endif %}
 
