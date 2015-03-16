@@ -1,0 +1,40 @@
+<!doctype html>
+
+<html>
+<head>
+    <title> {% block title %} {% endblock %} </title>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <div>
+            <h1>Mega Forum</h2>
+        </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/login">Log In</a></li>
+                        <li><a href="/register">Register</a></li>
+                        <li><a href="/forum">Forum</a></li>
+                    </ul>
+                        
+                    <p class="navbar-text navbar-right">{% if user.is_authenticated %}
+                                You are logged in as {{ user }} 
+                                (<a href="/logout">logout</a>)
+                                {% else %}
+                                    You are anonymous.
+                                {% endif %}
+                    </p>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </header>
+    <hr>
+    {% block content %} {% endblock %}
+</div>
+</body>
+</html>
