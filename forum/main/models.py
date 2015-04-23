@@ -8,3 +8,8 @@ class Message(models.Model):
     def __str__(self):
         return self.text
 
+class Profile(models.Model):
+    user = models.OneToOneField(User)
+    signature = models.TextField(default="I like this forum")
+
+

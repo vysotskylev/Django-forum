@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Your page {% endblock %}
+{% block content %}
+
+<h3>
+    Hello, <b>{{user.username}}</b>! This is your personal page. <br>
+    <small>Here you can provide some info about you</small>
+</h3>
+
+<form method="post" action="">
+  <div class="form-group">
+      <label for="signature">Your signature</label>
+      <input type="text" id="signature" name="signature"
+              value="{{user.profile.signature}}"/>
+  </div>
+  <button type="submit" class="btn btn-default">Add</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="{% static 'js/forum.js' %}"> </script>
+{% endblock %}

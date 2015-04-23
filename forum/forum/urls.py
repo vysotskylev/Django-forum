@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^login/', 'forum.views.login'),
     url(r'^logout/', 'forum.views.logout'),
 
+    url(r'^personal_page/', 'forum.views.personal_page'),
+
     url(r'^forum/', 'forum.views.forum'),
 
     url(r'^admin/', include(admin.site.urls)),

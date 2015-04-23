@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 
 from django.contrib import auth
 
-from main.models import Message
+from main.models import Message, Profile
 
 def register(request):
     if request.method == 'POST':
@@ -17,7 +17,8 @@ def register(request):
                     {'errors': 'This username is already taken'})
 
         user = User.objects.create_user(username=username, password=password)
-
+        profile = Profile.objects.create(user=user)
+        profile.save()
         if user:
             user = auth.authenticate(username=username, password=password)
             auth.login(request,user)
@@ -67,4 +68,12 @@ def forum(request):
 def home(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/forum')
+    return HttpResponseRedirect('/login')
+
+def personal_page(request):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            request.user.profile.signature = request.POST.get('signature', '')
+            request.user.profile.save()
+        return render(request, 'personal_page.html')
     return HttpResponseRedirect('/login')
