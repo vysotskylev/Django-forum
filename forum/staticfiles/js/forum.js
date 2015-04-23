@@ -7,6 +7,8 @@ $(function(){
         var $t = $(e.target);
         $message.attr('value', 'to ' + $t.attr('by') + ':');
         $t.parents('.panel').after($form);
-
+        $form.find('#to').attr('value', $t.attr('by'));
     });
+
+
 });

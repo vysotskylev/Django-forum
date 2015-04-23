@@ -50,7 +50,14 @@ def forum(request):
     if request.method == 'POST':
         if request.user.is_authenticated():
             text = request.POST.get('text','')
-            message = Message.objects.create(text = text, author = request.user)
+            to = request.POST.get('to', '')
+            print "TO: " + to
+            if to == '':
+                message = Message.objects.create(text = text, author = request.user)
+            else:
+                toUser = User.objects.get(username=to)
+                message = Message.objects.create(text = text, author = request.user, to = toUser)
+
             message.save()
     
     messages = Message.objects.all()
