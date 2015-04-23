@@ -66,7 +66,7 @@ def thread(request, threadName):
             message.save()
     messages = thread.message_set.all()
 
-    return render(request, 'thread.html', {'messages': messages})
+    return render(request, 'thread.html', {'thread_name': threadName, 'messages': messages})
 
 def all_threads(request):
     if request.method == 'POST' and request.user.is_authenticated():
