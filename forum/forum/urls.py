@@ -14,7 +14,8 @@ urlpatterns = patterns('',
 
     url(r'^personal_page/', 'forum.views.personal_page'),
 
-    url(r'^forum/', 'forum.views.forum'),
+    url(r'^threads/$', 'forum.views.all_threads'),
+    url(r'^threads/(.+)/$', 'forum.views.thread'),
 
     url(r'^admin/', include(admin.site.urls)),
 )

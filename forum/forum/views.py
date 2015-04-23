@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 
 from django.contrib import auth
 
-from main.models import Message, Profile
+from main.models import Message, Profile, Thread
 
 def register(request):
     if request.method == 'POST':
@@ -47,23 +47,29 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect("/forum")
 
-def forum(request):
+def thread(request, threadName):
+    thread = Thread.objects.get(name=threadName)
+    if not thread:
+        raise Exception("Thread {} doesn't exist".format(threadName))
+
     if request.method == 'POST':
         if request.user.is_authenticated():
             text = request.POST.get('text','')
             to = request.POST.get('to', '')
             print "TO: " + to
             if to == '':
-                message = Message.objects.create(text = text, author = request.user)
+                message = Message.objects.create(text = text, author = request.user, thread = thread)
             else:
                 toUser = User.objects.get(username=to)
-                message = Message.objects.create(text = text, author = request.user, to = toUser)
+                message = Message.objects.create(text = text, author = request.user, to = toUser, thread = thread)
 
             message.save()
-    
-    messages = Message.objects.all()
+    messages = Message.objects.filter(thread = thread)
 
-    return render(request, 'forum.html', {'messages': messages})
+    return render(request, 'thread.html', {'messages': messages})
+
+def all_threads(request):
+    return render(request, 'forum.html', {'threads' : Thread.objects.all()})
 
 def home(request):
     if request.user.is_authenticated():
