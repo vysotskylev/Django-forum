@@ -7,7 +7,7 @@ class Thread(models.Model):
 
 class Message(models.Model):
     text = models.TextField()
-    thread = models.ForeignKey(Thread, unique=True      )
+    thread = models.ForeignKey(Thread)
     author = models.ForeignKey(User)
     to = models.ForeignKey(User, related_name='+', null=True)
     def __str__(self):

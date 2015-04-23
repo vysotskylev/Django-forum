@@ -22,7 +22,7 @@ def register(request):
         if user:
             user = auth.authenticate(username=username, password=password)
             auth.login(request,user)
-            return HttpResponseRedirect("/forum")
+            return HttpResponseRedirect("/threads")
 
         return render(request, str(user))
     else:
@@ -37,7 +37,7 @@ def login(request):
             # Correct password, and the user is marked "active"
             auth.login(request, user)
             # Redirect to a success page.
-            return HttpResponseRedirect("/forum")
+            return HttpResponseRedirect("/threads")
         else:
             return render(request, 'login.html', {'errors': 'Wrong login or username'})
     else:
@@ -45,7 +45,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return HttpResponseRedirect("/forum")
+    return HttpResponseRedirect("/threads")
 
 def thread(request, threadName):
     thread = Thread.objects.get(name=threadName)
@@ -64,16 +64,22 @@ def thread(request, threadName):
                 message = Message.objects.create(text = text, author = request.user, to = toUser, thread = thread)
 
             message.save()
-    messages = Message.objects.filter(thread = thread)
+    messages = thread.message_set.all()
 
     return render(request, 'thread.html', {'messages': messages})
 
 def all_threads(request):
+    if request.method == 'POST' and request.user.is_authenticated():
+        #TODO return error instead of defaulting
+        threadName = request.POST.get('threadName', 'Default thread')
+        thread = Thread.objects.create(name=threadName)
+        thread.save()
+        return HttpResponseRedirect("/threads/{}".format(threadName))
     return render(request, 'forum.html', {'threads' : Thread.objects.all()})
 
 def home(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect('/forum')
+        return HttpResponseRedirect('/threads')
     return HttpResponseRedirect('/login')
 
 def personal_page(request):
